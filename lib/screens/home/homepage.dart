@@ -11,6 +11,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppDrawer(), // ✅ MOBILE DRAWER
       body: Column(
         children: [
           const NavBar(),
@@ -48,6 +49,8 @@ class NavBar extends StatelessWidget {
     );
   }
 }
+
+/* ---------- DESKTOP NAVBAR ---------- */
 
 class DesktopNavBar extends StatelessWidget {
   const DesktopNavBar({super.key});
@@ -128,29 +131,87 @@ class _NavItem extends StatelessWidget {
   }
 }
 
+/* ---------- MOBILE NAVBAR ---------- */
+
 class MobileNavBar extends StatelessWidget {
   const MobileNavBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.black)),
+    return Builder(
+      builder: (context) => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        decoration: const BoxDecoration(
+          border: Border(bottom: BorderSide(color: Colors.black)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              "SAMPATTI",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Times New Roman',
+                color: headingColor,
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            ),
+          ],
+        ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const [
-          Text(
-            "SAMPATTI",
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Times New Roman',
-              color: headingColor,
+    );
+  }
+}
+
+/* ===================== DRAWER ===================== */
+
+class AppDrawer extends StatelessWidget {
+  const AppDrawer({super.key});
+
+  void _navigate(BuildContext context, String route) {
+    Navigator.pop(context);
+    if (ModalRoute.of(context)?.settings.name != route) {
+      Navigator.pushNamed(context, route);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: Column(
+        children: [
+          DrawerHeader(
+            child: Center(
+              child: Text(
+                "SAMPATTI",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Times New Roman',
+                  color: headingColor,
+                ),
+              ),
             ),
           ),
-          Icon(Icons.menu),
+
+          ListTile(
+            title: const Text("Home"),
+            onTap: () => _navigate(context, '/'),
+          ),
+          ListTile(
+            title: const Text("Insurance Guide"),
+            onTap: () => _navigate(context, '/insurance-guide'),
+          ),
+          ListTile(
+            title: const Text("AI Assistant"),
+            onTap: () => _navigate(context, '/ai-detail'),
+          ),
         ],
       ),
     );
@@ -277,13 +338,13 @@ class HeroText extends StatelessWidget {
         const SizedBox(height: 40),
         ElevatedButton(
           onPressed: () {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (_) => QuizIntroPage(),
-    ),
-  );
-},
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const QuizIntroPage(),
+              ),
+            );
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: appBlue,
             foregroundColor: Colors.white,
@@ -291,7 +352,7 @@ class HeroText extends StatelessWidget {
                 const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
           ),
           child: const Text(
-            "Start Learning",
+            "Take the Quiz",
             style: TextStyle(fontFamily: 'Times New Roman'),
           ),
         ),

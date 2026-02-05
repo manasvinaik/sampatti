@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'routes.dart';
 
-// pages
+// CORE PAGES
 import 'screens/home/homepage.dart';
 import 'screens/insurance/insurance_guide.dart';
 import 'screens/ai/ai_detailpage.dart';
 import 'screens/ai/chat_page.dart';
 
-// quiz pages
+// INSURANCE DETAIL PAGES
+import 'screens/insurance/life_insurance_page.dart';
+import 'screens/insurance/health_insurance_page.dart';
+import 'screens/insurance/vehicle_insurance_page.dart';
+import 'screens/insurance/crop_insurance_page.dart';
+import 'screens/insurance/property_insurance_page.dart';
+
+// QUIZ PAGES
 import 'quiz/quiz_intro.dart';
 import 'quiz/quiz_page.dart';
 import 'quiz/quiz_result.dart';
@@ -25,20 +32,37 @@ class MyApp extends StatelessWidget {
       title: 'Sampatti',
       debugShowCheckedModeBanner: false,
       initialRoute: Routes.home,
+
+      /// ROUTES WITHOUT ARGUMENTS
       routes: {
+        // CORE
         Routes.home: (context) => const HomePage(),
         Routes.insuranceGuide: (context) => const InsuranceGuidePage(),
         Routes.aiDetail: (context) => const AIDetailPage(),
-        Routes.chat: (context) => ChatPage(), // ❌ not const if stateful
+        Routes.chat: (context) => ChatPage(),
+
+        // INSURANCE
+        Routes.lifeInsurance: (context) => const LifeInsurancePage(),
+        Routes.healthInsurance: (context) => const HealthInsurancePage(),
+        Routes.vehicleInsurance: (context) => const VehicleInsurancePage(),
+        Routes.cropInsurance: (context) => const CropInsurancePage(),
+        Routes.propertyInsurance: (context) => const PropertyInsurancePage(),
 
         // QUIZ
         Routes.quizIntro: (context) => const QuizIntroPage(),
         Routes.quiz: (context) => const QuizPage(),
-        Routes.quizResult: (context) {
-          final args =
-              ModalRoute.of(context)!.settings.arguments as int;
-          return QuizResultPage(score: args);
-        },
+      },
+
+      /// ROUTES WITH ARGUMENTS
+      onGenerateRoute: (settings) {
+        if (settings.name == Routes.quizResult) {
+          final result = settings.arguments as String;
+
+          return MaterialPageRoute(
+            builder: (_) => QuizResultPage(result: result),
+          );
+        }
+        return null;
       },
     );
   }

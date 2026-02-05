@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../routes.dart';
+
 
 const Color appBlue = Color(0xFF5479F7);
 const Color headingColor = Color.fromRGBO(0, 0, 0, 0.85);
@@ -479,31 +481,36 @@ class TypesOfInsuranceSection extends StatelessWidget {
           spacing: 40,
           runSpacing: 40,
           alignment: WrapAlignment.center,
-          children: const [
+          children: [
             InsuranceTypeCard(
               icon: Icons.favorite,
               english: "Life Insurance",
               hindi: "जीवन बीमा",
+              routeName: Routes.lifeInsurance,
             ),
             InsuranceTypeCard(
               icon: Icons.local_hospital,
               english: "Health Insurance",
               hindi: "स्वास्थ्य बीमा",
+              routeName: Routes.healthInsurance,
             ),
             InsuranceTypeCard(
               icon: Icons.directions_car,
               english: "Vehicle Insurance",
               hindi: "वाहन बीमा",
+              routeName: Routes.vehicleInsurance,
             ),
             InsuranceTypeCard(
               icon: Icons.agriculture,
               english: "Crop Insurance",
               hindi: "फसल बीमा",
+              routeName: Routes.cropInsurance,
             ),
             InsuranceTypeCard(
               icon: Icons.home,
               english: "Property Insurance",
               hindi: "संपत्ति बीमा",
+              routeName: Routes.propertyInsurance,
             ),
           ],
         ),
@@ -516,19 +523,21 @@ class InsuranceTypeCard extends StatelessWidget {
   final IconData icon;
   final String english;
   final String hindi;
+  final String routeName;
 
   const InsuranceTypeCard({
     super.key,
     required this.icon,
     required this.english,
     required this.hindi,
+    required this.routeName,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // TODO: Navigator.pushNamed(context, '/life-insurance');
+        Navigator.pushNamed(context, routeName);
       },
       child: Container(
         width: 260,
@@ -565,3 +574,4 @@ class InsuranceTypeCard extends StatelessWidget {
     );
   }
 }
+
