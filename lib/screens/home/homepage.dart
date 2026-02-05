@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../quiz/quiz_intro.dart';
 
 const Color appBlue = Color(0xFF5479F7);
 const Color headingColor = Color.fromRGBO(0, 0, 0, 0.85);
@@ -276,8 +277,13 @@ class HeroText extends StatelessWidget {
         const SizedBox(height: 40),
         ElevatedButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/insurance-guide');
-          },
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => QuizIntroPage(),
+    ),
+  );
+},
           style: ElevatedButton.styleFrom(
             backgroundColor: appBlue,
             foregroundColor: Colors.white,
